@@ -17,6 +17,10 @@ class MoviesController < ApplicationController
     @all_ratings = Movie.all_ratings
     @checked_ratings = params[:ratings] || session[:ratings] || {}
 
+    if@checked_ratings == {}
+      @checked_ratings = Hash[@all_ratings.map {|rating| [rating, rating]}]
+    end
+
     if params[:sort] != session[:sort]
       session[:sort] = sort
       redirect_to :sort => sort, :ratings => @checked_ratings and return
